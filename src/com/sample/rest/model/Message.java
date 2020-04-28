@@ -3,7 +3,10 @@ package com.sample.rest.model;
 import java.util.Date;
 
 import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
@@ -12,9 +15,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Message
 {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@Column
 	private String message;
+	@Column
 	private Date createdOn;
+	@Column
 	private Double amount;
 	
 	public Long getId()
@@ -85,6 +92,14 @@ public class Message
 		this.message = message;
 		this.createdOn = createdOn;
 		this.amount = amount;
+	}
+
+
+
+	@Override
+	public String toString()
+	{
+		return "Message [id=" + id + ", message=" + message + ", createdOn=" + createdOn + ", amount=" + amount + "]";
 	}
 	
 	

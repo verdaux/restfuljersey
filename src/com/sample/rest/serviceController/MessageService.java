@@ -20,6 +20,11 @@ public class MessageService
 		return messageList;
 	}
 	
+	public void addMessage(Message message)
+	{
+		
+	}
+	
 	public static void main(String[] args)
 	{
 		MessageService ms = new MessageService();
