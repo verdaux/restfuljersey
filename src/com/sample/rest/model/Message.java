@@ -2,11 +2,16 @@ package com.sample.rest.model;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
+
+@Entity
 @XmlRootElement
 public class Message
 {
+	@Id
 	private Long id;
 	private String message;
 	private Date createdOn;
