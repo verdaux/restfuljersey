@@ -3,37 +3,47 @@ package com.sample.rest.model;
 import java.util.Date;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.GenericGenerator;
 
-@Entity
+
+@Entity(name="MessagesDetail")
+@Table(name = "MessagesDetail")
 @XmlRootElement
 public class Message
 {
 	@Id
+	//@Column(name = "id",unique=true, nullable = false)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer msg_id;
 	@Column
 	private String message;
 	@Column
+	@Temporal(TemporalType.DATE)
 	private Date createdOn;
 	@Column
 	private Double amount;
-	
-	public Long getId()
+
+
+
+	public Integer getMsg_id()
 	{
-		return id;
+		return msg_id;
 	}
 
 
 
-	public void setId(Long id)
+	public void setMsg_id(Integer msg_id)
 	{
-		this.id = id;
+		this.msg_id = msg_id;
 	}
 
 
@@ -86,9 +96,9 @@ public class Message
 
 
 
-	public Message(Long id, String message, Date createdOn, Double amount)
+	public Message(Integer msg_id, String message, Date createdOn, Double amount)
 	{
-		this.id = id;
+		this.msg_id = msg_id;
 		this.message = message;
 		this.createdOn = createdOn;
 		this.amount = amount;
@@ -99,7 +109,7 @@ public class Message
 	@Override
 	public String toString()
 	{
-		return "Message [id=" + id + ", message=" + message + ", createdOn=" + createdOn + ", amount=" + amount + "]";
+		return "Message [msg_id=" + msg_id + ", message=" + message + ", createdOn=" + createdOn + ", amount=" + amount + "]";
 	}
 	
 	

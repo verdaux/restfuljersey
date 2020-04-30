@@ -25,18 +25,25 @@ public class MessageResource
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Message> getAllMessages()
 	{
-		return messageService.getAllMessages();
+		MessageDAO dao = new MessageDAO();
+		return dao.getMessages();
 	}
 
 
 	@POST
-	@Path("addMessage")
+	@Path("/addMessage")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	private Response  addMessage(Message message)
+	public Response  addMessage(Message message)
 	{
-		messageDAO.addMessage(message);
-		return Response.ok().build();
+		message.setMessage(message.getMessage());
+		message.setCreatedOn(message.getCreatedOn());
+		message.setAmount(message.getAmount());
+        
+        MessageDAO dao = new MessageDAO();
+        dao.addMessage(message);
+        
+        return Response.ok().build();
 	}
 	
 	@GET

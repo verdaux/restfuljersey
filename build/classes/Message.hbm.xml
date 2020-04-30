@@ -4,8 +4,9 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>  
   <class name="com.sample.rest.model.Message" table="MessagesDetail">  
-    <id name="id">  
-     <generator class="assigned"></generator>  
+    <id name="msg_id" type="java.lang.Integer">
+    <column name="msg_id"></column>
+     <generator class="identity"></generator>  
     </id>  
     <property name="message"></property>  
     <property name="createdOn"></property>  

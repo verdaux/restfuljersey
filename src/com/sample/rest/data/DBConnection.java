@@ -18,27 +18,30 @@ import com.sample.rest.model.Message;
 
 public class DBConnection
 {
-	Message messages = new Message();
+	static Message messages = new Message();
 
 	public static void main(String[] args)
 	{
 		Message message = new Message();
 		
-		/*
-		 * message.setId(1L); message.setMessage("First message");
-		 * message.setCreatedOn(new Date()); message.setAmount(100.0);
-		 */
+		
+		 // message.setId(1L);
+		  message.setMessage("First message");
+		  message.setCreatedOn(new Date()); message.setAmount(100.0);
+		 
 		
 		try
 		{
-			/*
-			 * SessionFactory sessionFactory = new
-			 * Configuration().configure().buildSessionFactory(); Session session =
-			 * sessionFactory.openSession(); session.beginTransaction();
-			 * session.save(message); session.getTransaction().commit();
-			 */
+			
+			  SessionFactory sessionFactory = new
+			  Configuration().configure().buildSessionFactory();
+			  Session session =
+			  sessionFactory.openSession(); session.beginTransaction();
+			  session.save(message); session.getTransaction().commit();
+			 
 		
-		callProcs();
+		//callProcs();
+			//enhancedCallProc();
 		}
 	
 		catch (Exception e)
@@ -62,7 +65,7 @@ public class DBConnection
         // Stored procedure query #1
         System.out.println(":::: Find all messages ::::");
  
-        StoredProcedureQuery allemployees = s.createStoredProcedureQuery("getAllMessages", Message.class);
+        StoredProcedureQuery allemployees = (StoredProcedureQuery) s.createStoredProcedureCall("getAllMessages", Message.class);
  
         List<Message> elist = (List<Message>) allemployees.getResultList();
  
@@ -84,37 +87,39 @@ public class DBConnection
         Session s = config.buildSessionFactory().openSession();
 		System.out.println("\n:::: Find employee count by designation ::::");
 		 
-        StoredProcedureQuery count = s.createStoredProcedureQuery("findEmployeeCountByDesignation");
-        count.registerStoredProcedureParameter("emp_designation", String.class, ParameterMode.IN);
-        count.registerStoredProcedureParameter("designation_count", Integer.class, ParameterMode.OUT);
+        StoredProcedureQuery count = (StoredProcedureQuery) s.createStoredProcedureCall("find_count_by_id");
+        count.registerStoredProcedureParameter("idVal", Integer.class, ParameterMode.IN);
+        count.registerStoredProcedureParameter("idCount", Integer.class, ParameterMode.OUT);
  
-        String param = "Lead";
-        count.setParameter("emp_designation", param);
+        Integer param = 1;
+        count.setParameter("idVal", param);
         count.execute();
  
-        Integer employee_count = (Integer) count.getOutputParameterValue("designation_count");
-        System.out.println("Employee count for designation= " + param + " is= " + employee_count);
+        Integer idCount = (Integer) count.getOutputParameterValue("idCount");
+        System.out.println("Message count for designation= " + param + " is= " + idCount);
  
         // Closing the session object.
         s.close();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public  void latestCall()
+	public static  void latestCall()
 	{
-		ProcedureCall procedureCall = SessionUtil.getSession().createStoredProcedureCall("add_all_company_benefits");
-		procedureCall.registerParameter("EMPLOYEE", Long.class, ParameterMode.IN);
-		procedureCall.registerParameter("COMPANY", Long.class, ParameterMode.IN);
-		procedureCall.getParameterRegistration("EMPLOYEE").bindValue(messages.getId());
-		//procedureCall.getParameterRegistration("COMPANY").bindValue(company.getId());                
-		ProcedureOutputs procedureOutputs = procedureCall.getOutputs();
-		ResultSetOutput resultSetOutput = (ResultSetOutput) procedureOutputs.getCurrent();
-		@SuppressWarnings("rawtypes")
-		List results = resultSetOutput.getResultList();
-		for(Integer i=0;i<results.size();i++) {
-		    Object[] objects = (Object[]) results.get(i);
-		    System.out.println(objects[i]);
-		    //LOGGER.info("The benefit is "+objects[1]);
-		}
+		/*
+		 * ProcedureCall procedureCall =
+		 * SessionUtil.getSession().createStoredProcedureCall("find_count_by_id");
+		 * procedureCall.registerParameter("idVal", Long.class, ParameterMode.IN);
+		 * //procedureCall.getParameterRegistration("idCount").bindValue(messages.getId(
+		 * ));
+		 * //procedureCall.getParameterRegistration("COMPANY").bindValue(company.getId()
+		 * ); procedureCall.setParameter("idVal", 1); ProcedureOutputs procedureOutputs
+		 * = procedureCall.getOutputs(); ResultSetOutput resultSetOutput =
+		 * (ResultSetOutput) procedureOutputs.getCurrent();
+		 * 
+		 * @SuppressWarnings("rawtypes") List results = resultSetOutput.getResultList();
+		 * for(Integer i=0;i<results.size();i++) { Object[] objects = (Object[])
+		 * results.get(i); System.out.println(objects[i]);
+		 * //LOGGER.info("The benefit is "+objects[1]); }
+		 */
 	}
 }
