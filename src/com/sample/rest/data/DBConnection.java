@@ -15,6 +15,7 @@ import org.hibernate.procedure.ProcedureOutputs;
 import org.hibernate.result.ResultSetOutput;
 
 import com.sample.rest.model.Message;
+import com.sample.rest.util.Constants;
 
 public class DBConnection
 {
@@ -26,18 +27,22 @@ public class DBConnection
 		
 		
 		 // message.setId(1L);
-		  message.setMessage("First message");
-		  message.setCreatedOn(new Date()); message.setAmount(100.0);
+		/*
+		 * message.setMessage("First message"); message.setCreatedOn(new Date());
+		 * message.setAmount(100.0);
+		 */
 		 
 		
 		try
 		{
-			
-			  SessionFactory sessionFactory = new
-			  Configuration().configure().buildSessionFactory();
-			  Session session =
-			  sessionFactory.openSession(); session.beginTransaction();
-			  session.save(message); session.getTransaction().commit();
+			System.out.println("title:: "+Constants.title);
+			System.out.println("proc:: "+Constants.procDB);
+			/*
+			 * SessionFactory sessionFactory = new
+			 * Configuration().configure().buildSessionFactory(); Session session =
+			 * sessionFactory.openSession(); session.beginTransaction();
+			 * session.save(message); session.getTransaction().commit();
+			 */
 			 
 		
 		//callProcs();
