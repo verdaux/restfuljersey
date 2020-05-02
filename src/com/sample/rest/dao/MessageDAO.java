@@ -2,12 +2,17 @@ package com.sample.rest.dao;
 
 import java.util.List;
 
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import com.sample.rest.data.SessionUtil;
 import com.sample.rest.model.Message;
+import com.sample.rest.util.Constants;
 
 public class MessageDAO
 {
@@ -29,12 +34,33 @@ public class MessageDAO
         session.save(message);
     }
     
-    public List<Message> getMessages(){
+    public List<Message> getMessages()
+    {
         Session session = SessionUtil.getSession();    
         Query query = session.createQuery(" from Message",Message.class);
         List<Message> Messages =  query.getResultList();
         session.close();
         return Messages;
+    }
+    
+    public String getMessage(int idVal)
+    {
+		// Creating the configuration instance & passing the hibernate configuration file.
+    	Session session = SessionUtil.getSession();
+		String msg="";
+        StoredProcedureQuery count = (StoredProcedureQuery) session.createStoredProcedureCall(Constants.procMsg);
+        count.registerStoredProcedureParameter("idVal", Integer.class, ParameterMode.IN);
+        count.registerStoredProcedureParameter("msg", String.class, ParameterMode.OUT);
+ 
+        count.setParameter("idVal", idVal);
+        count.execute();
+ 
+        msg = (String) count.getOutputParameterValue("msg");
+        System.out.println("Message:: " + msg);
+ 
+        // Closing the session object.
+        session.close();
+		return msg;
     }
  
     public int deleteMessage(int msg_id) {

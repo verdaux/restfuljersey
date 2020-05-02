@@ -14,6 +14,7 @@ import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.procedure.ProcedureOutputs;
 import org.hibernate.result.ResultSetOutput;
 
+import com.sample.rest.dao.MessageDAO;
 import com.sample.rest.model.Message;
 import com.sample.rest.util.Constants;
 
@@ -37,6 +38,8 @@ public class DBConnection
 		{
 			System.out.println("title:: "+Constants.title);
 			System.out.println("proc:: "+Constants.procDB);
+			MessageDAO dao = new MessageDAO();
+			dao.getMessage(1);
 			/*
 			 * SessionFactory sessionFactory = new
 			 * Configuration().configure().buildSessionFactory(); Session session =
@@ -92,7 +95,7 @@ public class DBConnection
         Session s = config.buildSessionFactory().openSession();
 		System.out.println("\n:::: Find employee count by designation ::::");
 		 
-        StoredProcedureQuery count = (StoredProcedureQuery) s.createStoredProcedureCall("find_count_by_id");
+        StoredProcedureQuery count = (StoredProcedureQuery) s.createStoredProcedureCall(Constants.procDB);
         count.registerStoredProcedureParameter("idVal", Integer.class, ParameterMode.IN);
         count.registerStoredProcedureParameter("idCount", Integer.class, ParameterMode.OUT);
  

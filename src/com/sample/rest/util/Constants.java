@@ -8,6 +8,7 @@ public class Constants
 	public static Properties db;
 	public static String title;
 	public static String procDB;
+	public static String procMsg;
 	static
 	{
 		try
@@ -17,6 +18,7 @@ public class Constants
 			
 			title = config.getProperty("title");
 			procDB = db.getProperty("findcountbyid");
+			procMsg = db.getProperty("messageById");
 		}
 		catch (Exception e)
 		{

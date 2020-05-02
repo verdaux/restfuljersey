@@ -3,9 +3,12 @@ package com.sample.rest.resources;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -29,6 +32,19 @@ public class MessageResource
 		return dao.getMessages();
 	}
 
+	@GET
+    @Path("/getMessage/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+    public String getMessage(@PathParam("id") int id)
+	{
+		MessageDAO dao = new MessageDAO();
+		String msg = dao.getMessage(id);
+        if(msg==null || msg.equals("") || msg.length() ==0)
+        {
+            return "No message";
+        }
+        return msg;
+    }
 
 	@POST
 	@Path("/addMessage")
@@ -45,6 +61,34 @@ public class MessageResource
         
         return Response.ok().build();
 	}
+	
+	@PUT
+    @Path("/update/{id}")
+    @Consumes("application/json")
+    public Response updateMessage(@PathParam("id") int id, Message message)
+	{
+		MessageDAO dao = new MessageDAO();
+        int count = dao.updateMessage(id, message);
+        if(count==0)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok().build();
+    }
+    
+    @DELETE
+    @Path("/delete/{id}")
+    @Consumes("application/json")
+    public Response deleteEmployee(@PathParam("id") int id)
+    {
+    	MessageDAO dao = new MessageDAO();
+        int count = dao.deleteMessage(id);
+        if(count==0)
+        {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok().build();
+    }
 	
 	@GET
 	@Path("/getAllmessagesinXML")
