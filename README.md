@@ -14,3 +14,6 @@ Following are the important points to be considered in this app:
 - Uses Jersey for JSON (jersey-core-1.19.1)
 - Hibernate (hibernate-core-5.2.1.Final)
 - Database is MS SQL Server
+
+API verbs
+https://www.getpostman.com/collections/e006c3c9d2e6839e193a
