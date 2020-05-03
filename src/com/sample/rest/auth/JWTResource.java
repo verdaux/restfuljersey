@@ -63,7 +63,7 @@ public class JWTResource
 	}
 	
 	private String generate(String userName)
-	{
+	{ 
 		String fixedId = "aGeneratedStringID";
 		String clearTextPassword = "this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase-this-is-a-passphrase";
 		byte[] byteBasedPassphrase = DatatypeConverter.parseBase64Binary(clearTextPassword);
