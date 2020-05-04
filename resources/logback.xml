@@ -2,18 +2,21 @@
 <configuration>
 
     <property name="HOME_LOG" value="D:/Tech/Logs/Rest_Jersey_Logs/app.log"/>
-
+    <!-- <timestamp key="bySecond" datePattern="dd-MM-yyyy'T'HHmmss"/> -->
+    
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HOME_LOG}</file>
+        <file>D:/Tech/Logs/Rest_Jersey_Logs/app.log</file>
 
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>D:/Tech/Logs/Rest_Jersey_Logs/logs/archived/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>D:/Tech/Logs/Rest_Jersey_Logs/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
             <!-- each archived file, size max 10MB -->
             <maxFileSize>10MB</maxFileSize>
             <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
             <totalSizeCap>20GB</totalSizeCap>
             <!-- 60 days to keep -->
             <maxHistory>60</maxHistory>
+            </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
 
         <encoder>
