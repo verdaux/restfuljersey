@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.sample.rest.auth.Secured;
 import com.sample.rest.dao.MessageDAO;
 import com.sample.rest.model.Message;
 import com.sample.rest.serviceController.MessageService;
@@ -23,6 +24,7 @@ public class MessageResource
 	MessageService messageService = new MessageService();
 	MessageDAO messageDAO = new MessageDAO();
 	
+	@Secured
 	@GET
 	@Path("/getAllmessages")
 	@Produces(MediaType.APPLICATION_JSON)

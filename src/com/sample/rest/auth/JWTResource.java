@@ -36,6 +36,7 @@ public class JWTResource
 		return generated;
 	}
 	
+	@Secured
 	@Path("/validate-jwt")
 	@POST
 	private void validateJWT(String jwt)
