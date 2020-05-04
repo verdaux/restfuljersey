@@ -13,10 +13,14 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.procedure.ProcedureOutputs;
 import org.hibernate.result.ResultSetOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sample.rest.dao.MessageDAO;
 import com.sample.rest.model.Message;
 import com.sample.rest.util.Constants;
+
+
 
 public class DBConnection
 {
@@ -36,10 +40,12 @@ public class DBConnection
 		
 		try
 		{
-			System.out.println("title:: "+Constants.title);
-			System.out.println("proc:: "+Constants.procDB);
+		//	System.out.println("title:: "+Constants.title);
+		//	System.out.println("proc:: "+Constants.procDB);
+			Constants.EXCEPTION_LOGGER.error(Constants.title);
+			Constants.COMMON_LOGGER.debug(Constants.title);
 			MessageDAO dao = new MessageDAO();
-			dao.getMessage(1);
+			//dao.getMessage(1);
 			/*
 			 * SessionFactory sessionFactory = new
 			 * Configuration().configure().buildSessionFactory(); Session session =

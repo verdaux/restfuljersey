@@ -1,5 +1,6 @@
 /Message.hbm.xml
-/com/
 /config.properties
 /db.properties
 /hibernate.cfg.xml
+/logback.xml
+/com/
