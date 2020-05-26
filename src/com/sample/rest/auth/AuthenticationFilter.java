@@ -2,14 +2,21 @@ package com.sample.rest.auth;
 
 import java.io.IOException;
 import java.security.Key;
+import java.security.Principal;
 
 import javax.annotation.Priority;
 import javax.crypto.spec.SecretKeySpec;
+import javax.security.auth.Subject;
+import javax.security.auth.callback.CallbackHandler;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.DatatypeConverter;
 
@@ -23,17 +30,61 @@ import io.jsonwebtoken.Jwts;
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)
-public class AuthenticationFilter implements ContainerRequestFilter {
-
+public class AuthenticationFilter implements ContainerRequestFilter
+{
+	@Context
+	private HttpServletRequest request;
+	@Context
+	private SecurityContext securityContext;
+	@Context
+	private UriInfo uriInfo;
+	
     private static final String REALM = "example";
-    private static final String AUTHENTICATION_SCHEME = "Bearer";
+    private static final String AUTHENTICATION_SCHEME1 = "Bearer";
+    private static final String AUTHENTICATION_SCHEME2 = "Basic";
+    private static final String reasonForException = "Bad request";
 
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) throws IOException
+    {
 
         // Get the Authorization header from the request
         String authorizationHeader =
                 requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
+        final SecurityContext securityContext = (SecurityContext) requestContext.getSecurityContext();
+        requestContext.setSecurityContext(new SecurityContext()
+		{
+			
+			@Override
+			public boolean isUserInRole(String role)
+			{
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+			@Override
+			public boolean isSecure()
+			{
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+			@Override
+			public Principal getUserPrincipal()
+			{
+				// TODO Auto-generated method stub
+				return () -> "user";
+			}
+			
+			@Override
+			public String getAuthenticationScheme()
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+        
+        
         // Validate the Authorization header
         if (!isTokenBasedAuthentication(authorizationHeader)) {
             abortWithUnauthorized(requestContext);
@@ -42,7 +93,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         // Extract the token from the Authorization header
         String token = authorizationHeader
-                            .substring(AUTHENTICATION_SCHEME.length()).trim();
+                            .substring(AUTHENTICATION_SCHEME1.length()).trim();
 
         try {
 
@@ -60,7 +111,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         // It must not be null and must be prefixed with "Bearer" plus a whitespace
         // The authentication scheme comparison must be case-insensitive
         return authorizationHeader != null && authorizationHeader.toLowerCase()
-                    .startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
+                    .startsWith(AUTHENTICATION_SCHEME1.toLowerCase() + " ");
     }
 
     private void abortWithUnauthorized(ContainerRequestContext requestContext) {
@@ -70,7 +121,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         requestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED)
                         .header(HttpHeaders.WWW_AUTHENTICATE, 
-                                AUTHENTICATION_SCHEME + " realm=\"" + REALM + "\"")
+                                AUTHENTICATION_SCHEME1 + " realm=\"" + REALM + "\"")
                         .build());
     }
 
