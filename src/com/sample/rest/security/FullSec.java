@@ -61,7 +61,16 @@ public class FullSec
 
 	    // Give the JWK a Key ID (kid), which is just the polite thing to do
 	    receiverJwk.setKeyId("receiver's key");
-
+	    
+	    String randomJSON = "{\r\n" + 
+	    		"  \"kty\": \"RSA\",\r\n" + 
+	    		"  \"e\": \"AQAB\",\r\n" + 
+	    		"  \"kid\": \"ipru\",\r\n" + 
+	    		"  \"n\": \"gQMP8xtzxFoJ6ZIPtxSqyT6I3xsitWtx_bdXY4JvJhuvLJ7Y_zVmTg649nIZm7H9zz8k4zRVwIL3TRoDHcDiSizSmkGkjtYJ282OwjqI4TOnVTRfClTJVKO0qkWNAMWR8r\r\n" + 
+	    		"F9hZlQ-M57CwMYKiYZ05nclfNZSyaGM_y1Da7yrZhqGM4LVyifLJJKn5asZcq4by1W5N-zo-hv63AUr_7mtdvbsolhh75lkDHsSQXaQZDsXOFq5JdmLOt_vEo6rvq4ksKiAtZ7JGrD\r\n" + 
+	    		"o4YjkNyfgcHDZmgkz_8tshOuM3dZizs4yjEkKUTwjg_on77zQmrgUh1249bQ8kRBKNcSqAPgmw\"\r\n" + 
+	    		"}";
+	    
 	    // Create the Claims, which will be the content of the JWT
 	    JwtClaims claims = new JwtClaims();
 	    claims.setIssuer("sender");  // who creates the token and signs it
@@ -72,6 +81,7 @@ public class FullSec
 	    claims.setNotBeforeMinutesInThePast(2); // time before which the token is not yet valid (2 minutes ago)
 	    claims.setSubject("subject"); // the subject/principal is whom the token is about
 	    claims.setClaim("email","mail@example.com"); // additional claims/attributes about the subject can be added
+	    claims.setStringClaim("jsonVal", randomJSON);
 	    List<String> groups = Arrays.asList("group-1", "other-group", "group-3");
 	    claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
 
@@ -180,6 +190,7 @@ public class FullSec
 	        //  Validate the JWT and process it to the Claims
 	        JwtClaims jwtClaims = jwtConsumer.processToClaims(jwt);
 	        System.out.println("JWT validation succeeded! " + jwtClaims);
+	        System.out.println("Payload is::  "+ jwtClaims.getClaimValue("jsonVal").toString());
 	    }
 	    catch (InvalidJwtException e)
 	    {
