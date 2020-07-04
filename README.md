@@ -17,3 +17,12 @@ Following are the important points to be considered in this app:
 
 API verbs
 https://www.getpostman.com/collections/e006c3c9d2e6839e193a
+
+Deploying on WebSphere links:
+Link
+
+https://www.ibm.com/support/knowledgecenter/SSEQTP_8.5.5/com.ibm.websphere.base.doc/ae/twbs_jaxrs_configwebxml_jrsfilters.html
+
+....
+
+https://stackoverflow.com/questions/24684958/jax-rs-jersey-2-10-support-in-websphere-8
